@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from datetime import datetime 
+from datetime import datetime
 import nltk
 import numpy as np
 import os, sys
@@ -11,17 +11,23 @@ import re
 def clean_data(df):
     cols = ['publish_date', 'harvested_date']
     df[cols] = df[cols].apply(pd.to_datetime, format='%m/%d/%Y %H:%M')
-
+    df = df[df['language'] == 'English']
+    df['content'].dropna(inplace = True)
 
 def main():
     folder = os.path.join(os.getcwd(), 'data')
-    file = os.path.join(folder, 'IRAhandle_tweets_1.csv')
-    df = pd.read_csv(file)
-    
+    df = pd.DataFrame()
+    for i in range(1,2):
+        file = os.path.join(folder, 'IRAhandle_tweets_'+str(i)+'.csv')
+        dfi = pd.read_csv(file)
+        df = df.append(dfi)
+
     clean_data(df)
-    
+
     #df[df['language'] == 'Russian']
     print(df.head())
+
+
 
 
 if __name__ == '__main__':
