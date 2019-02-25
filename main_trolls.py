@@ -9,10 +9,11 @@ import re
 
 
 def clean_data(df):
-    cols = ['publish_date', 'harvested_date']
-    df[cols] = df[cols].apply(pd.to_datetime, format='%m/%d/%Y %H:%M')
     df = df[df['language'] == 'English']
     df['content'].dropna(inplace = True)
+    df.drop(['tco1_step1', 'tco2_step1', 'tco3_step1', 'alt_external_id', 'article_url'], axis = 1, inplace = True)
+    df.sort_values(by='publish_date', inplace = True)
+    df[df['external_author_id'] == 906000000000000000]
 
 def main():
     folder = os.path.join(os.getcwd(), 'data')
